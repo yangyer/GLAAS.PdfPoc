@@ -1,0 +1,10 @@
+﻿@model GLAAS.PdfPoc.Models.UploadModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using(Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.TextBoxFor(m => m.File, new Dictionary<string, object> { { "type", "file" }, { "class", "filestyle" } })
+}
