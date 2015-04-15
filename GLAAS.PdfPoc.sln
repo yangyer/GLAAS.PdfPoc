@@ -5,6 +5,14 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLAAS.PdfPoc", "GLAAS.PdfPoc\GLAAS.PdfPoc.csproj", "{129E0218-127F-49C4-BA55-26C36D99E5B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole1", "TestConsole1\TestConsole1\TestConsole1.csproj", "{64EE81B5-D857-410A-BF14-023C4083E816}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{F2BAEE6A-973F-4393-ABEC-3F4674CF8023}"
+	ProjectSection(SolutionItems) = preProject
+		Misc\templateDoc.dotx = Misc\templateDoc.dotx
+		Misc\templateDoc1.dotx = Misc\templateDoc1.dotx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,10 @@ Global
 		{129E0218-127F-49C4-BA55-26C36D99E5B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{129E0218-127F-49C4-BA55-26C36D99E5B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{129E0218-127F-49C4-BA55-26C36D99E5B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64EE81B5-D857-410A-BF14-023C4083E816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64EE81B5-D857-410A-BF14-023C4083E816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64EE81B5-D857-410A-BF14-023C4083E816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64EE81B5-D857-410A-BF14-023C4083E816}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
