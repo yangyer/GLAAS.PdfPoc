@@ -22,8 +22,9 @@ namespace TestConsole1
         {
             try
             {
-                wordDoc();
-                convertToPdf();
+                //wordDoc();
+                //convertToPdf();
+                fillPdf();
             }
             catch (Exception ex)
             {
@@ -56,6 +57,42 @@ namespace TestConsole1
                 ((_Document)wordDoc).Close(ref doNotSaveChanges, ref oMissing, ref oMissing);
                 wordDoc = null;
                 ((_Application)wordApp).Quit(ref doNotSaveChanges, ref oMissing, ref oMissing);
+                wordApp = null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            //OpenOffice o = new OpenOffice();
+            //Console.WriteLine(o.ExportToPdf("C:\\MyProjects\\myfile.docx").ToString());
+        }
+
+        private static void fillPdf()
+        {
+            try
+            {
+                //OBJECT OF MISSING "NULL VALUE"
+
+                Object oMissing = System.Reflection.Missing.Value;
+
+                Application wordApp = new Application();
+                Document pdfDoc = wordApp.Documents.Open(@"E:\Git\Repos\GLAAS.PdfPoc\Misc\test1.pdf");
+
+                //wordDoc = wordApp.Documents.Add(ref oTemplatePath, ref oMissing, ref oMissing, ref oMissing);
+
+                //object outputFileName = pdfDoc.FullName.Replace(".docx", ".pdf");
+                object fileFormat = WdSaveFormat.wdFormatPDF;
+                //wordDoc.SaveAs(ref outputFileName,
+                //                ref fileFormat, ref oMissing, ref oMissing,
+                //                ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                //                ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                //                ref oMissing, ref oMissing, ref oMissing, ref oMissing);
+                //wordApp.Documents.Open("myFile.doc");
+                object doNotSaveChanges = Microsoft.Office.Interop.Word.WdSaveOptions.wdDoNotSaveChanges;
+                ((_Document)pdfDoc).Close(ref doNotSaveChanges, ref oMissing, ref oMissing);
+                pdfDoc = null;
+                ((_Application)pdfDoc).Quit(ref doNotSaveChanges, ref oMissing, ref oMissing);
                 wordApp = null;
             }
             catch (Exception ex)
