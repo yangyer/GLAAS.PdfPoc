@@ -9,7 +9,22 @@ namespace GLAAS.PdfPoc.Models
     {
         public HttpPostedFileBase File { get; set; }
 
+        public string FileName { get; set; }
+
+        public List<Field> Fields { get; set; }
+
         public UploadModel()
+        {
+            Fields = new List<Field>();
+        }
+    }
+
+    public class Field
+    {
+        public string Key { get; set; }
+        public string Value { get; set; }
+
+        public Field()
         {
 
         }

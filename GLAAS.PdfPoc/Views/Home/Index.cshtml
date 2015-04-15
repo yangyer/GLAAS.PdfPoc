@@ -3,8 +3,39 @@
     ViewBag.Title = "Index";
 }
 
-@using(Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form" }))
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "UploadForm", @class = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.TextBoxFor(m => m.File, new Dictionary<string, object> { { "type", "file" }, { "class", "filestyle" } })
+    <br />
+    <button type="submit" class="btn btn-primary pull-right">Upload</button>
+}
+
+@if (Model.Fields != null && Model.Fields.Count() > 0)
+{
+    using (Html.BeginForm("Generate", "Home", FormMethod.Post, new { id = "GenerateForm", @class = "form" }))
+    {
+        @Html.HiddenFor(m => m.FileName);
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Fields.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Model.Fields[i].Key
+                            @Html.HiddenFor(m => m.Fields[i].Key);
+                        </td>
+                        <td>@Html.TextBoxFor(m => m.Fields[i].Value, new { @class = "form-control" })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Generate PDF</button>
+    }
 }
