@@ -13,6 +13,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{F2BAEE6A-9
 		Misc\templateDoc1.dotx = Misc\templateDoc1.dotx
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dlls", "dlls", "{7C0E7DCF-CC4A-44EB-932E-5DB218EEAE53}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cli", "cli", "{F6BF479E-233C-4FF8-8815-91F6899CA6C4}"
+	ProjectSection(SolutionItems) = preProject
+		Misc\dlls\cli\cli_basetypes.dll = Misc\dlls\cli\cli_basetypes.dll
+		Misc\dlls\cli\cli_cppuhelper.dll = Misc\dlls\cli\cli_cppuhelper.dll
+		Misc\dlls\cli\cli_oootypes.dll = Misc\dlls\cli\cli_oootypes.dll
+		Misc\dlls\cli\cli_ure.dll = Misc\dlls\cli\cli_ure.dll
+		Misc\dlls\cli\cli_uretypes.dll = Misc\dlls\cli\cli_uretypes.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +41,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7C0E7DCF-CC4A-44EB-932E-5DB218EEAE53} = {F2BAEE6A-973F-4393-ABEC-3F4674CF8023}
+		{F6BF479E-233C-4FF8-8815-91F6899CA6C4} = {7C0E7DCF-CC4A-44EB-932E-5DB218EEAE53}
 	EndGlobalSection
 EndGlobal

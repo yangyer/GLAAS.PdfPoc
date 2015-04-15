@@ -34,23 +34,23 @@
   <ItemGroup>
     <Reference Include="cli_basetypes, Version=1.0.20.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\OpenOffice_4.1.0_SDK\sdk\cli\cli_basetypes.dll</HintPath>
+      <HintPath>..\..\Misc\dlls\cli\cli_basetypes.dll</HintPath>
     </Reference>
     <Reference Include="cli_cppuhelper, Version=1.0.23.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\OpenOffice_4.1.0_SDK\sdk\cli\cli_cppuhelper.dll</HintPath>
+      <HintPath>..\..\Misc\dlls\cli\cli_cppuhelper.dll</HintPath>
     </Reference>
     <Reference Include="cli_oootypes, Version=1.0.9.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\OpenOffice_4.1.0_SDK\sdk\cli\cli_oootypes.dll</HintPath>
+      <HintPath>..\..\Misc\dlls\cli\cli_oootypes.dll</HintPath>
     </Reference>
     <Reference Include="cli_ure, Version=1.0.23.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\OpenOffice_4.1.0_SDK\sdk\cli\cli_ure.dll</HintPath>
+      <HintPath>..\..\Misc\dlls\cli\cli_ure.dll</HintPath>
     </Reference>
     <Reference Include="cli_uretypes, Version=1.0.9.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\OpenOffice_4.1.0_SDK\sdk\cli\cli_uretypes.dll</HintPath>
+      <HintPath>..\..\Misc\dlls\cli\cli_uretypes.dll</HintPath>
     </Reference>
     <Reference Include="DocX">
       <HintPath>..\packages\DocX.1.0.0.13\lib\net40\DocX.dll</HintPath>
