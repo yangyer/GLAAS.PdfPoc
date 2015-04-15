@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLAAS.PdfPoc", "GLAAS.PdfPoc\GLAAS.PdfPoc.csproj", "{129E0218-127F-49C4-BA55-26C36D99E5B9}"
 EndProject
@@ -22,6 +22,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cli", "cli", "{F6BF479E-233
 		Misc\dlls\cli\cli_oootypes.dll = Misc\dlls\cli\cli_oootypes.dll
 		Misc\dlls\cli\cli_ure.dll = Misc\dlls\cli\cli_ure.dll
 		Misc\dlls\cli\cli_uretypes.dll = Misc\dlls\cli\cli_uretypes.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{56E3F307-F5E9-451F-8318-D22CD8C1EC46}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
 Global
