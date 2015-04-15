@@ -29,7 +29,7 @@
                     <tr>
                         <td>
                             @Model.Fields[i].Key
-                            @Html.HiddenFor(m => m.Fields[i].Key);
+                            @Html.HiddenFor(m => m.Fields[i].Key)
                         </td>
                         <td>@Html.TextBoxFor(m => m.Fields[i].Value, new { @class = "form-control" })</td>
                     </tr>
