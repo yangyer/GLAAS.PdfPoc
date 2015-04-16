@@ -2,6 +2,7 @@
 using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,8 +20,6 @@ namespace GLAAS.PdfPoc.Controllers
         {
             return View(new WordTemplateModel());
         }
-
-        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -90,7 +89,8 @@ namespace GLAAS.PdfPoc.Controllers
         {
             try
             {
-
+                wordDoc(_uploadPath + _templateDoc, _uploadPath + _templateToDoc, model.DataMapping);
+                convertToPdf(_uploadPath + _templateToDoc);
                 //Dictionary<int, string> DataDictionaryReplacementValues = new Dictionary<int, string>();
                 ////YourName
                 //DataDictionaryReplacementValues[0] = "Mohammad Murtaza Zaidi";
@@ -110,13 +110,35 @@ namespace GLAAS.PdfPoc.Controllers
                 //stamper.FormFlattening = true;
                 //stamper.Close();
                 //pdfReader.Close();
+                var output = new MemoryStream();
+                var path = _uploadPath + (_templateToDoc.Replace(".docx", ".pdf"));
+                using (var fsSource = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                {
+                    byte[] bytes = new byte[fsSource.Length];
+                    int numBytesToRead = (int)fsSource.Length;
+                    int numBytesRead = 0;
+                    while (numBytesToRead > 0)
+                    {
+                        // Read may return anything from 0 to numBytesToRead. 
+                        int n = fsSource.Read(bytes, numBytesRead, numBytesToRead);
 
+                        // Break when the end of the file is reached. 
+                        if (n == 0)
+                            break;
 
+                        numBytesRead += n;
+                        numBytesToRead -= n;
+                    }
+                    numBytesToRead = bytes.Length;
 
-                //Response.AddHeader("Content-Disposition", "attachment; filename=GeneratedFrom-" + (model.FileName.ToLower().EndsWith(".pdf") ? model.FileName : model.FileName + ".pdf"));
-                //Response.ContentType = "application/pdf";
-                //Response.BinaryWrite(output.ToArray());
-                //Response.End();
+                    output.Write(bytes, 0, numBytesToRead);
+                }
+                
+
+                Response.AddHeader("Content-Disposition", "attachment; filename=GeneratedFrom-" + (model.FileName.ToLower().EndsWith(".pdf") ? model.FileName : model.FileName + ".pdf"));
+                Response.ContentType = "application/pdf";
+                Response.BinaryWrite(output.ToArray());
+                Response.End();
             }
             catch (Exception ex)
             {
@@ -126,7 +148,7 @@ namespace GLAAS.PdfPoc.Controllers
             return RedirectToAction("Index");
         }
 
-        public void wordDoc(string TemplateFileLocation, string GeneratedFileNameLocation)
+        public void wordDoc(string TemplateFileLocation, string GeneratedFileNameLocation, List<ModelField> dataMap)
         {
             try
             {
@@ -141,16 +163,19 @@ namespace GLAAS.PdfPoc.Controllers
 
                 foreach (Microsoft.Office.Interop.Word.ContentControl cc in wordDoc.ContentControls)
                 {
-                    switch (cc.Title)
+                    string fieldName = cc.Title;
+
+                    if (dataMap.Any(f => f.Key == fieldName))
                     {
-                        case "MyName":
-                            cc.Range.Text = "Mohammad Murtaza Zaidi";
-                            break;
-                        case "Single":
-                            cc.Checked = true;
-                            break;
-                        default:
-                            break;
+                        var val = dataMap.FirstOrDefault(f => f.Key == fieldName).Value;
+                        if (cc.Type == WdContentControlType.wdContentControlCheckBox)
+                        {
+                            cc.Checked = bool.Parse(val);
+                        }
+                        else if (cc.Type == WdContentControlType.wdContentControlText)
+                        {
+                            cc.Range.Text = val;
+                        }
                     }
                 }
 
@@ -239,6 +264,40 @@ namespace GLAAS.PdfPoc.Controllers
                     typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with 
                     typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with 
                     desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+        }
+
+        private void convertToPdf(string docLocation)
+        {
+            try
+            {
+                //OBJECT OF MISSING "NULL VALUE"
+                Object oMissing = System.Reflection.Missing.Value;
+                Application wordApp = new Application();
+                Document wordDoc = wordApp.Documents.Open(docLocation);
+
+                //wordDoc = wordApp.Documents.Add(ref oTemplatePath, ref oMissing, ref oMissing, ref oMissing);
+
+                object outputFileName = wordDoc.FullName.Replace(".docx", ".pdf");
+                object fileFormat = WdSaveFormat.wdFormatPDF;
+                wordDoc.SaveAs(ref outputFileName,
+                                ref fileFormat, ref oMissing, ref oMissing,
+                                ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                                ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                                ref oMissing, ref oMissing, ref oMissing, ref oMissing);
+                //wordApp.Documents.Open("myFile.doc");
+                object doNotSaveChanges = Microsoft.Office.Interop.Word.WdSaveOptions.wdDoNotSaveChanges;
+                ((_Document)wordDoc).Close(ref doNotSaveChanges, ref oMissing, ref oMissing);
+                wordDoc = null;
+                ((_Application)wordApp).Quit(ref doNotSaveChanges, ref oMissing, ref oMissing);
+                wordApp = null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            //OpenOffice o = new OpenOffice();
+            //Console.WriteLine(o.ExportToPdf("C:\\MyProjects\\myfile.docx").ToString());
         }
 
     }
