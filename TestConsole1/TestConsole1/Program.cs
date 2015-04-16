@@ -22,9 +22,10 @@ namespace TestConsole1
         {
             try
             {
-                //wordDoc();
+                //testWord();
+                wordDoc();
                 //convertToPdf();
-                fillPdf();
+                //fillPdf();
             }
             catch (Exception ex)
             {
@@ -67,6 +68,62 @@ namespace TestConsole1
             //OpenOffice o = new OpenOffice();
             //Console.WriteLine(o.ExportToPdf("C:\\MyProjects\\myfile.docx").ToString());
         }
+
+        private static void testWord()
+        {
+            try
+            {
+                //OBJECT OF MISSING "NULL VALUE"
+
+                Object oMissing = System.Reflection.Missing.Value;
+
+                Application wordApp = new Application();
+                Document wordDoc = wordApp.Documents.Open(FileSaveAs);
+
+                //foreach (Microsoft.Office.Interop.Word.FormField field in wordDoc.FormFields)
+                //{
+                //    switch (field.Name)
+                //    {
+                //        case "MyName":
+                //            field.Range.Text = "Mohammad Murtaza Zaidi";
+                //            break;
+
+                //        default:
+                //            break;
+                //    }
+                //}
+
+                foreach (Microsoft.Office.Interop.Word.ContentControl cc in wordDoc.ContentControls)
+                {
+
+                    switch (cc.Title)
+                    {
+                        case "MyName":
+                            cc.Range.Text = "Mohammad Murtaza Zaidi";
+                            break;
+
+                        default:
+                            break;
+                    }
+                   
+                }
+                wordDoc.Save();
+
+                object doNotSaveChanges = Microsoft.Office.Interop.Word.WdSaveOptions.wdDoNotSaveChanges;
+                ((_Document)wordDoc).Close(ref doNotSaveChanges, ref oMissing, ref oMissing);
+                wordDoc = null;
+                ((_Application)wordDoc).Quit(ref doNotSaveChanges, ref oMissing, ref oMissing);
+                wordApp = null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            //OpenOffice o = new OpenOffice();
+            //Console.WriteLine(o.ExportToPdf("C:\\MyProjects\\myfile.docx").ToString());
+        }
+
 
         private static void fillPdf()
         {
@@ -141,6 +198,37 @@ namespace TestConsole1
                 Document wordDoc = new Document();
 
                 wordDoc = wordApp.Documents.Add(ref oTemplatePath, ref oMissing, ref oMissing, ref oMissing);
+
+
+                //foreach (Microsoft.Office.Interop.Word.FormField field in wordDoc.FormFields)
+                //{
+                //    switch (field.Name)
+                //    {
+                //        case "MyName":
+                //            field.Range.Text = "Mohammad Murtaza Zaidi";
+                //            break;
+
+                //        default:
+                //            break;
+                //    }
+                //}
+
+                foreach (Microsoft.Office.Interop.Word.ContentControl cc in wordDoc.ContentControls)
+                {
+
+                    switch (cc.Title)
+                    {
+                        case "MyName":
+                            cc.Range.Text = "Mohammad Murtaza Zaidi";
+                            break;
+                        case "Single":
+                            cc.Checked = true;
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
 
                 foreach (Field myMergeField in wordDoc.Fields)
                 {
