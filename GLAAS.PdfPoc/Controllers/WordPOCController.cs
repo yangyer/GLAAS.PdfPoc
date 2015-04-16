@@ -37,7 +37,7 @@ namespace GLAAS.PdfPoc.Controllers
                 model = GenerateDataMapping(Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, file.FileName)), model);
 
                 //wordDoc(Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, file.FileName)), Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, _templateToDoc)));
-                //model.FileName = file.FileName;
+                model.FileName = file.FileName;
 
             }
             catch (Exception ex)
@@ -89,8 +89,10 @@ namespace GLAAS.PdfPoc.Controllers
         {
             try
             {
-                wordDoc(_uploadPath + _templateDoc, _uploadPath + _templateToDoc, model.DataMapping);
-                convertToPdf(_uploadPath + _templateToDoc);
+                string tempfilelocation = Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, model.FileName));
+                string destfilelocation = Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, _templateToDoc));
+                wordDoc(tempfilelocation, destfilelocation, model.DataMapping);
+                convertToPdf(destfilelocation);
                 //Dictionary<int, string> DataDictionaryReplacementValues = new Dictionary<int, string>();
                 ////YourName
                 //DataDictionaryReplacementValues[0] = "Mohammad Murtaza Zaidi";
@@ -111,7 +113,8 @@ namespace GLAAS.PdfPoc.Controllers
                 //stamper.Close();
                 //pdfReader.Close();
                 var output = new MemoryStream();
-                var path = _uploadPath + (_templateToDoc.Replace(".docx", ".pdf"));
+                var path = destfilelocation.Replace(".docx", ".pdf");
+
                 using (var fsSource = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read))
                 {
                     byte[] bytes = new byte[fsSource.Length];
@@ -150,14 +153,15 @@ namespace GLAAS.PdfPoc.Controllers
 
         public void wordDoc(string TemplateFileLocation, string GeneratedFileNameLocation, List<ModelField> dataMap)
         {
+            Application wordApp = new Application();
+            Document wordDoc = new Document();
+            //OBJECT OF MISSING "NULL VALUE"
+            Object oMissing = System.Reflection.Missing.Value;
+            Object oTemplatePath = TemplateFileLocation;
+
             try
             {
-                //OBJECT OF MISSING "NULL VALUE"
-                Object oMissing = System.Reflection.Missing.Value;
-                Object oTemplatePath = TemplateFileLocation;
-
-                Application wordApp = new Application();
-                Document wordDoc = new Document();
+                
 
                 wordDoc = wordApp.Documents.Add(ref oTemplatePath, ref oMissing, ref oMissing, ref oMissing);
 
@@ -167,14 +171,15 @@ namespace GLAAS.PdfPoc.Controllers
 
                     if (dataMap.Any(f => f.Key == fieldName))
                     {
-                        var val = dataMap.FirstOrDefault(f => f.Key == fieldName).Value;
+                        var valkey = dataMap.FirstOrDefault(f => f.Key == fieldName).Value;
+                        object val = POCUtil.DictionaryMapped[valkey];
                         if (cc.Type == WdContentControlType.wdContentControlCheckBox)
                         {
-                            cc.Checked = bool.Parse(val);
+                            cc.Checked = (bool)val;
                         }
                         else if (cc.Type == WdContentControlType.wdContentControlText)
                         {
-                            cc.Range.Text = val;
+                            cc.Range.Text = val.ToString();
                         }
                     }
                 }
@@ -212,17 +217,20 @@ namespace GLAAS.PdfPoc.Controllers
                 }
 
                 wordDoc.SaveAs(GeneratedFileNameLocation);
-                //wordApp.Documents.Open("myFile.doc");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
                 object doNotSaveChanges = Microsoft.Office.Interop.Word.WdSaveOptions.wdDoNotSaveChanges;
                 ((_Document)wordDoc).Close(ref doNotSaveChanges, ref oMissing, ref oMissing);
                 wordDoc = null;
                 ((_Application)wordApp).Quit(ref doNotSaveChanges, ref oMissing, ref oMissing);
                 wordApp = null;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+
         }
 
         private string GenerateLoremIpsum()
@@ -268,12 +276,14 @@ namespace GLAAS.PdfPoc.Controllers
 
         private void convertToPdf(string docLocation)
         {
+            //OBJECT OF MISSING "NULL VALUE"
+            Object oMissing = System.Reflection.Missing.Value;
+            Application wordApp = new Application();
+            Document wordDoc = null;
             try
             {
-                //OBJECT OF MISSING "NULL VALUE"
-                Object oMissing = System.Reflection.Missing.Value;
-                Application wordApp = new Application();
-                Document wordDoc = wordApp.Documents.Open(docLocation);
+                wordDoc = wordApp.Documents.Open(docLocation);
+                
 
                 //wordDoc = wordApp.Documents.Add(ref oTemplatePath, ref oMissing, ref oMissing, ref oMissing);
 
@@ -285,15 +295,22 @@ namespace GLAAS.PdfPoc.Controllers
                                 ref oMissing, ref oMissing, ref oMissing, ref oMissing,
                                 ref oMissing, ref oMissing, ref oMissing, ref oMissing);
                 //wordApp.Documents.Open("myFile.doc");
-                object doNotSaveChanges = Microsoft.Office.Interop.Word.WdSaveOptions.wdDoNotSaveChanges;
-                ((_Document)wordDoc).Close(ref doNotSaveChanges, ref oMissing, ref oMissing);
-                wordDoc = null;
-                ((_Application)wordApp).Quit(ref doNotSaveChanges, ref oMissing, ref oMissing);
-                wordApp = null;
+                
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                object doNotSaveChanges = Microsoft.Office.Interop.Word.WdSaveOptions.wdDoNotSaveChanges;
+                if (wordDoc != null)
+                {
+                    ((_Document)wordDoc).Close(ref doNotSaveChanges, ref oMissing, ref oMissing);
+                }
+                wordDoc = null;
+                ((_Application)wordApp).Quit(ref doNotSaveChanges, ref oMissing, ref oMissing);
+                wordApp = null;
             }
 
             //OpenOffice o = new OpenOffice();
