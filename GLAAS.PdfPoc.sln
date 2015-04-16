@@ -10,6 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{F2BAEE6A-973F-4393-ABEC-3F4674CF8023}"
 	ProjectSection(SolutionItems) = preProject
 		Misc\TA TF Appointment Letter.pdf = Misc\TA TF Appointment Letter.pdf
+		Misc\templateDoc.dotx = Misc\templateDoc.dotx
+		Misc\templateDoc1.dotx = Misc\templateDoc1.dotx
 		Misc\test.pdf = Misc\test.pdf
 		Misc\test1.pdf = Misc\test1.pdf
 	EndProjectSection
