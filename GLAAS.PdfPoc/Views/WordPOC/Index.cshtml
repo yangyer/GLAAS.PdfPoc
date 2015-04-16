@@ -1,0 +1,50 @@
+﻿@model GLAAS.PdfPoc.Models.WordTemplateModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm("Index", "WordPOC", FormMethod.Post, new { id = "UploadForm", @class = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.TextBoxFor(m => m.File, new Dictionary<string, object> { { "type", "file" }, { "class", "filestyle" } })
+    <br />
+    <button type="submit" class="btn btn-primary pull-right">Upload</button>
+}
+
+@if (Model.DataMapping != null && Model.DataMapping.Count() > 0)
+{
+    using (Html.BeginForm("Generate", "WordPOC", FormMethod.Post, new { id = "GenerateForm", @class = "form" }))
+    {
+        @Html.HiddenFor(m => m.FileName);
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.DataMapping.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @*@Model.DataMapping.Keys.ElementAt(i)*@
+                        @Model.DataMapping[i].Key
+                        @*@Html.HiddenFor(m => m.DataMapping.Keys.ElementAt(i))*@
+                        @Html.HiddenFor(m => m.DataMapping[i].Key)
+                        @*@Html.Hidden(Model.DataMapping.Keys.ElementAt(i))*@
+                        @*@{
+                            string test = Html.Name(Model.DataMapping.Keys.ElementAt(i)).ToString();
+                        }*@
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(m => m.DataMapping[i].Value, new SelectList(Model.DataDictionary, "Key", "Value"))
+                        @*@Html.TextBoxFor(m => m.Fields[i].Value, new { @class = "form-control" })*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Generate PDF</button>
+    }
+}
