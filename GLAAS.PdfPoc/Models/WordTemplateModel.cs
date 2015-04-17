@@ -23,6 +23,17 @@ namespace GLAAS.PdfPoc.Models
 
         public List<ModelField> DataMapping { get; set; }
 
+        public List<ModelField> DocumentTypes
+        {
+            get
+            { 
+                List<ModelField> m = new List<ModelField>();
+                m.Add(new ModelField() { Key = "0", Value = "PDF Document" });
+                m.Add(new ModelField() { Key = "1", Value = "Word Document" });
+                return m;
+            }
+        }
+        public int DocumentType { get; set; }
     }
 
     public class ModelField

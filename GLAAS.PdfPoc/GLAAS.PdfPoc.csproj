@@ -170,6 +170,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CodeUtil\POCUtil.cs" />
+    <Compile Include="Controllers\DocPOCController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\WordPOCController.cs" />
     <Compile Include="Global.asax.cs">
@@ -182,6 +183,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Views\WordPOC\Index.cshtml" />
+    <Content Include="Views\DocPOC\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

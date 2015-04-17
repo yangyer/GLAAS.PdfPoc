@@ -1,0 +1,70 @@
+﻿@model GLAAS.PdfPoc.Models.WordTemplateModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm("Index", "DocPOC", FormMethod.Post, new { id = "UploadForm", @class = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.TextBoxFor(m => m.File, new Dictionary<string, object> { { "type", "file" }, { "class", "filestyle" } })
+    <br />
+    <button type="submit" class="btn btn-primary pull-right">Upload</button>
+}
+
+@if (Model.DataMapping != null && Model.DataMapping.Count() > 0)
+{
+    using (Html.BeginForm("Generate", "DocPOC", FormMethod.Post, new { id = "GenerateForm", @class = "form" }))
+    {
+        @Html.HiddenFor(m => m.FileName);
+    
+    <h3> Please select data mappings to generate document</h3>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Document Controls Found</th>
+                <th>Data Dictionary Values Available</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.DataMapping.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @*@Model.DataMapping.Keys.ElementAt(i)*@
+                        @Model.DataMapping[i].Key
+                        @*@Html.HiddenFor(m => m.DataMapping.Keys.ElementAt(i))*@
+                        @Html.HiddenFor(m => m.DataMapping[i].Key)
+                        @*@Html.Hidden(Model.DataMapping.Keys.ElementAt(i))*@
+                        @*@{
+                                string test = Html.Name(Model.DataMapping.Keys.ElementAt(i)).ToString();
+                            }*@
+                    </td>
+                    <td>
+                        @{
+                            var val = Model.DataDictionary.Values.FirstOrDefault(a => a == Model.DataMapping[i].Key);
+                            var selectList = new SelectList(Model.DataDictionary, "Key", "Value");
+                            if (!string.IsNullOrWhiteSpace(val))
+                            {
+                                var found = Model.DataDictionary.FirstOrDefault(item => item.Value == val);
+                                selectList = new SelectList(Model.DataDictionary, "Key", "Value", found.Key);
+                            }
+                        }
+                        @Html.DropDownListFor(m => m.DataMapping[i].Value, selectList, "-- Select Dictionary Mapping --", new { @class = "form-control" })
+                        @*@Html.TextBoxFor(m => m.Fields[i].Value, new { @class = "form-control" })*@
+                    </td>
+
+                    
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <h4>Select Document Type to Generate</h4>
+    <br />
+    @Html.DropDownListFor(m => m.DocumentType, new SelectList(Model.DocumentTypes, "Key", "Value"), new { @class = "form-control" })
+    <br />
+    <br />
+    <button type="submit" class="btn btn-primary">Generate Document</button>
+    }
+}
