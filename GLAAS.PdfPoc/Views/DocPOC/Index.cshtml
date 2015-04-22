@@ -13,10 +13,19 @@
 
 @if (Model.DataMapping != null && Model.DataMapping.Count() > 0)
 {
+    <br />
+    <br />
+    @Html.LabelFor(m => m.Error)
+    <br />
+    @Html.TextAreaFor(m => m.Error, new { style = "width:1024px;height:40px" })
+    <br />
+    <br />
     using (Html.BeginForm("Generate", "DocPOC", FormMethod.Post, new { id = "GenerateForm", @class = "form" }))
     {
         @Html.HiddenFor(m => m.FileName);
     
+    
+    <button type="submit" class="btn btn-primary">Generate Document</button>
     <h3> Please select data mappings to generate document</h3>
     
     <table class="table table-striped">
@@ -67,4 +76,9 @@
     <br />
     <button type="submit" class="btn btn-primary">Generate Document</button>
     }
+    
+    
+    <br />
+    <br />
+
 }

@@ -34,6 +34,8 @@ namespace GLAAS.PdfPoc.Models
             }
         }
         public int DocumentType { get; set; }
+
+        public string Error { get; set; }
     }
 
     public class ModelField
