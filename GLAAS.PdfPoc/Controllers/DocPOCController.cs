@@ -37,7 +37,7 @@ namespace GLAAS.PdfPoc.Controllers
                 file.SaveAs(Server.MapPath(_uploadPath + file.FileName));
                 // Give user the mapping
 
-                model = GenerateDataMapping(Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, file.FileName)), model);
+                model = GenerateDataMappingOxml(Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, file.FileName)), model);
 
                 //wordDoc(Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, file.FileName)), Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, _templateToDoc)));
                 model.FileName = file.FileName;
@@ -48,6 +48,46 @@ namespace GLAAS.PdfPoc.Controllers
 
             }
             return View(model);
+        }
+
+        private WordTemplateModel GenerateDataMappingOxml(string TemplateFileLocation, WordTemplateModel model)
+        {
+            try
+            {
+                using (WordprocessingDocument document = WordprocessingDocument.Open(TemplateFileLocation, true))
+                {
+
+                    // Change the document type to Document
+                    document.ChangeDocumentType(DocumentFormat.OpenXml.WordprocessingDocumentType.Document);
+
+                    // Get the MainPart of the document
+                    MainDocumentPart mainPart = document.MainDocumentPart;
+
+                    // Get the Document Settings Part
+                    DocumentSettingsPart documentSettingPart1 = mainPart.DocumentSettingsPart;
+                    OpenXmlElement[] Enumerate = mainPart.ContentControls().ToArray();
+                    List<ModelField> dataMapping = new List<ModelField>();
+                    for (int i = 0; i < Enumerate.Count(); i++)
+                    {
+                        OpenXmlElement cc = Enumerate[i];
+                        SdtProperties props = cc.Elements<SdtProperties>().FirstOrDefault();
+                        Tag tag = props.Elements<Tag>().FirstOrDefault();
+                        SdtAlias alias = props.Elements<SdtAlias>().FirstOrDefault();
+                        string title = ((DocumentFormat.OpenXml.Wordprocessing.StringType)(alias)).Val;
+                        string tagName = tag.Val;
+
+                        dataMapping.Add(new ModelField() { Key = title });
+                    }
+
+                    model.DataMapping = dataMapping;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return model;
         }
 
         private WordTemplateModel GenerateDataMapping(string TemplateFileLocation, WordTemplateModel model)
