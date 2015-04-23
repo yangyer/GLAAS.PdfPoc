@@ -14,7 +14,7 @@
     <RootNamespace>GLAAS.PdfPoc</RootNamespace>
     <AssemblyName>GLAAS.PdfPoc</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -43,6 +43,12 @@
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Pdf">
+      <HintPath>..\packages\Aspose.Pdf.10.3.0\lib\net40-client\Aspose.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Words">
+      <HintPath>..\packages\Aspose.Words.15.3.0\lib\net3.5-client\Aspose.Words.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging">
       <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
@@ -263,6 +269,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CodeUtil\POCUtil.cs" />
+    <Compile Include="Controllers\AsposeController.cs" />
     <Compile Include="Controllers\DocPOCController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\WordPOCController.cs" />
@@ -294,6 +301,7 @@
     <Content Include="src\samples\resources\sample-docx.docx" />
     <Content Include="src\samples\resources\docx4j.properties" />
     <Content Include="src\samples\resources\ContentControlBind\binding-simple.docx" />
+    <Content Include="Views\Aspose\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -353,13 +361,13 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>9460</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:9460/</IISUrl>
+          <IISUrl>http://bislocal.ucmerced.edu/GLAAS.PdfPoc</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
           </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-          <servers defaultServer="SelfHostServer">
+          <servers defaultServer="">
             <server name="SelfHostServer" exePath="" cmdArgs="" url="http://localhost:9460/" workingDir="" />
           </servers>
         </WebProjectProperties>

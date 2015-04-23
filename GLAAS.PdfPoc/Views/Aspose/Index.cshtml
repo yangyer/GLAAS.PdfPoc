@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using(Html.BeginForm("ConvertToPdf", "Aspose", FormMethod.Post, new { id = "ConvertToPdf", @class = "form", enctype = "multipart/form-data" }))
+{
+    <button type="submit" class="btn btn-lg btn-danger">CLICK ME</button>
+}
