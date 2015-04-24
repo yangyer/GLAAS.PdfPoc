@@ -311,23 +311,38 @@ namespace GLAAS.PdfPoc.Controllers
 
                             //p1.ParagraphProperties = paragraphProperties;
                             
-
                             r1.RunProperties = new RunProperties();
 
-                            cc.Descendants<DocumentFormat.OpenXml.Wordprocessing.RunProperties>().ToList().ForEach(
-                                runProperty => runProperty.ToList().ForEach(
-                                    property => 
+                            
+                            //else
+                            //{
+
+                                cc.Descendants<DocumentFormat.OpenXml.Wordprocessing.RunProperties>().ToList().ForEach(
+                                    runProperty => runProperty.ToList().ForEach(
+                                        property =>
                                         {
-                                            if(!r1.RunProperties.ChildElements.ToList().Exists(propertyToAdd => propertyToAdd.GetType() == property.GetType()))
+                                            if (!r1.RunProperties.ChildElements.ToList().Exists(propertyToAdd => propertyToAdd.GetType() == property.GetType()))
                                             {
                                                 r1.RunProperties.AppendChild((OpenXmlElement)property.CloneNode(true));
                                             }
                                         }
-                                     )
-                                );
-                                
+                                         )
+                                    );
 
-                            var t1 = r1.AppendChild(new Text(val.ToString()));
+                                if (cc.Descendants<DocumentFormat.OpenXml.Office2010.Word.SdtContentCheckBox>().Count() > 0)
+                                {
+                                    //☒
+                                    //☐
+                                    //☐
+                                    var t2 = r1.AppendChild(new Text("☒"));
+                                    //DocumentFormat.OpenXml.Wordprocessing.CheckBox c1 = r1.AppendChild(new DocumentFormat.OpenXml.Wordprocessing.CheckBox());
+                                    //c1.AppendChild(new Checked());
+                                }
+                                else
+                                {
+                                    var t1 = r1.AppendChild(new Text(val.ToString()));
+                                }
+                            //}
                         }
                         //var cloneNode = cc.CloneNode(false);
 
