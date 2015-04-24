@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml;
+using System.Collections.Specialized;
 
 namespace GLAAS.PdfPoc.Controllers
 {
@@ -134,7 +135,11 @@ namespace GLAAS.PdfPoc.Controllers
             {
                 string tempfilelocation = Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, model.FileName));
                 string destfilelocation = Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, _templateToDoc));
-                wordDocOpenXml(tempfilelocation, destfilelocation, model.DataMapping);
+                string fileIN = Server.MapPath(string.Format(@"{0}\{1}", _uploadPath, "test123.docx"));
+                string fileOUT = fileIN.Replace(".docx", ".pdf");
+
+                //wordDocOpenXml(tempfilelocation, destfilelocation, model.DataMapping);
+                ConvertToPdf(fileIN, fileOUT);
                 //wordDoc(tempfilelocation, destfilelocation, model.DataMapping);
                 //convertToPdf(destfilelocation);
                 
@@ -173,7 +178,7 @@ namespace GLAAS.PdfPoc.Controllers
             catch (Exception ex)
             {
                // return new ContentResult() { Content = ex.Message };
-                model.Error = ex.Message;
+                model.Error = ex.ToString();
                 return View("Index", model);
             }
 
@@ -653,6 +658,40 @@ namespace GLAAS.PdfPoc.Controllers
 
             //OpenOffice o = new OpenOffice();
             //Console.WriteLine(o.ExportToPdf("C:\\MyProjects\\myfile.docx").ToString());
+        }
+
+        private void ConvertToPdf(string fileIN, string fileOUT)
+        {
+            //string projectDir = Server.MapPath("~/");
+
+            NameValueCollection commonLoggingproperties = new NameValueCollection();
+            commonLoggingproperties["showDateTime"] = "false";
+            commonLoggingproperties["level"] = "INFO";
+            Common.Logging.LogManager.Adapter = new Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter(commonLoggingproperties);
+
+
+            Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
+            log.Info("Hello from Common Logging");
+
+            // Necessary, if slf4j-api and slf4j-NetCommonLogging are separate DLLs
+            ikvm.runtime.Startup.addBootClassPathAssembly(
+                System.Reflection.Assembly.GetAssembly(
+                    typeof(org.slf4j.impl.StaticLoggerBinder)));
+
+            // Configure to find docx4j.properties
+            // .. add as URL the dir containing docx4j.properties (not the file itself!)
+            Plutext.PropertiesConfigurator.setDocx4jPropertiesDir(Server.MapPath("~/src/samples/resources/"));
+
+            //org.docx4j.openpackaging.parts.WordprocessingML.ObfuscatedFontPart.getTemporaryEmbeddedFontsDir()
+
+            // OK, do it..
+            org.docx4j.openpackaging.packages.WordprocessingMLPackage wordMLPackage = org.docx4j.openpackaging.packages.WordprocessingMLPackage.load(new java.io.File(fileIN));
+
+            java.io.FileOutputStream fos = new java.io.FileOutputStream(new java.io.File(fileOUT));
+
+            org.docx4j.Docx4J.toPDF(wordMLPackage, fos);
+
+            fos.close();            
         }
     }
 }
