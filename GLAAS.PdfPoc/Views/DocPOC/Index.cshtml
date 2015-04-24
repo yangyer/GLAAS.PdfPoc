@@ -11,6 +11,12 @@
     <button type="submit" class="btn btn-primary pull-right">Upload</button>
 }
 
+<br />
+<br />
+@Html.LabelFor(m => m.Error)
+<br />
+@Html.TextAreaFor(m => m.Error, new { style = "width:1024px;height:40px" })
+
 @if (Model.DataMapping != null && Model.DataMapping.Count() > 0)
 {
     <br />

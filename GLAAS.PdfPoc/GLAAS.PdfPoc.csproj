@@ -147,6 +147,9 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PDFTechLib">
+      <HintPath>..\Misc\dlls\acro\PDFTechLib.dll</HintPath>
+    </Reference>
     <Reference Include="slf4j-api">
       <HintPath>..\packages\slf4j-api.1.7.5\lib\net35\slf4j-api.dll</HintPath>
     </Reference>
@@ -246,6 +249,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap-filestyle.js" />
@@ -269,6 +273,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CodeUtil\POCUtil.cs" />
+    <Compile Include="Controllers\AcroController.cs" />
     <Compile Include="Controllers\AsposeController.cs" />
     <Compile Include="Controllers\DocPOCController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -302,6 +307,7 @@
     <Content Include="src\samples\resources\docx4j.properties" />
     <Content Include="src\samples\resources\ContentControlBind\binding-simple.docx" />
     <Content Include="Views\Aspose\Index.cshtml" />
+    <Content Include="Views\Acro\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

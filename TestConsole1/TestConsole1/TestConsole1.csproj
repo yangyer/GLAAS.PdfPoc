@@ -145,6 +145,9 @@
     <Reference Include="IKVM.Runtime.JNI">
       <HintPath>..\..\packages\IKVM.7.3.4830.0\lib\IKVM.Runtime.JNI.dll</HintPath>
     </Reference>
+    <Reference Include="PDFTechLib">
+      <HintPath>..\..\Misc\dlls\acro\PDFTechLib.dll</HintPath>
+    </Reference>
     <Reference Include="slf4j-api">
       <HintPath>..\..\packages\slf4j-api.1.7.5\lib\net35\slf4j-api.dll</HintPath>
     </Reference>
