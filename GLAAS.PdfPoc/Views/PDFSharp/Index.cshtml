@@ -3,7 +3,7 @@
     ViewBag.Title = "PDFSharp POC";
 }
 
-@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "UploadForm", @class = "form", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Index", "PDFSharp", FormMethod.Post, new { id = "UploadForm", @class = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.TextBoxFor(m => m.File, new Dictionary<string, object> { { "type", "file" }, { "class", "filestyle" } })
@@ -13,7 +13,7 @@
 
 @if (Model.Fields != null && Model.Fields.Count() > 0)
 {
-    using (Html.BeginForm("Generate", "Home", FormMethod.Post, new { id = "GenerateForm", @class = "form" }))
+    using (Html.BeginForm("Generate", "PDFSharp", FormMethod.Post, new { id = "GenerateForm", @class = "form" }))
     {
         @Html.HiddenFor(m => m.FileName);
     <table class="table table-striped">

@@ -240,9 +240,10 @@ namespace GLAAS.PdfPoc.Controllers
             }
 
             System.IO.File.Copy(TemplateFileLocation, GeneratedFileNameLocation);
+
             using (WordprocessingDocument document = WordprocessingDocument.Open(GeneratedFileNameLocation, true))
             {
-
+                
                 // Change the document type to Document
                 document.ChangeDocumentType(DocumentFormat.OpenXml.WordprocessingDocumentType.Document);
 
