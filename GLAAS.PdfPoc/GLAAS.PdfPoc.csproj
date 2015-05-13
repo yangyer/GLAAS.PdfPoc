@@ -147,6 +147,12 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PdfSharp">
+      <HintPath>..\packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting">
+      <HintPath>..\packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
     <Reference Include="PDFTechLib">
       <HintPath>..\Misc\dlls\acro\PDFTechLib.dll</HintPath>
     </Reference>
@@ -273,10 +279,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CodeUtil\POCUtil.cs" />
-    <Compile Include="Controllers\AcroController.cs" />
+    <Compile Include="Controllers\AcroController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\AsposeController.cs" />
     <Compile Include="Controllers\DocPOCController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PDFSharpController.cs" />
     <Compile Include="Controllers\WordPOCController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -308,6 +317,7 @@
     <Content Include="src\samples\resources\ContentControlBind\binding-simple.docx" />
     <Content Include="Views\Aspose\Index.cshtml" />
     <Content Include="Views\Acro\Index.cshtml" />
+    <Content Include="Views\PDFSharp\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
